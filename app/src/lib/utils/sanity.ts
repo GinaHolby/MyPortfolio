@@ -18,12 +18,18 @@ export const client = createClient({
 
 export async function getPosts(): Promise<Post[]> {
 	return await client.fetch(
-		groq`*[_type == "post" && defined(slug.current)] | order(_createdAt desc)`
+		groq`*[_type == "project" && defined(slug.current)] | order(_createdAt desc){
+			projectTitle,
+			_id,
+			slug,
+			"bilde": image.asset->url,
+			gallery[]
+		  }`
 	);
 }
 
 export async function getPost(slug: string): Promise<Post> {
-	return await client.fetch(groq`*[_type == "post" && slug.current == $slug][0]`, {
+	return await client.fetch(groq`*[_type == "project" && slug.current == $slug][0]`, {
 		slug
 	});
 }
@@ -36,4 +42,5 @@ export interface Post {
 	excerpt?: string;
 	mainImage?: ImageAsset;
 	body: PortableTextBlock[];
+
 }

@@ -3,11 +3,11 @@ import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const load = (async () => {
-	const posts = await getPosts();
+	const projects = await getPosts();
 
-	if (posts) {
+	if (projects) {
 		return {
-			posts
+			projects
 		};
 	}
 
